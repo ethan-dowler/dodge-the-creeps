@@ -11,19 +11,28 @@ var score
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Connect signals
+	$Player.hit.connect(_on_player_hit)
+	$Player.boost_changed.connect(_on_player_boost_changed)
+	$HUD.start_game.connect(_on_hud_start_game)
+	$MobTimer.timeout.connect(_on_mob_timer_timeout)
+	$StartTimer.timeout.connect(_on_start_timer_timeout)
+	$ScoreTimer.timeout.connect(_on_score_timer_timeout)
+
+	# Hide player until game starts
 	$Player.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
-func game_over():
+func _on_player_hit():
 	$GameOver.play()
-	$MobTimer.stop()
 	$HUD.show_game_over()
+	$Player.hide()
+	$MobTimer.stop()
 	$Music.stop()
 	$ScoreTimer.stop()
-	$BoostTimer.stop()
 	
 
 func new_game():
@@ -32,6 +41,7 @@ func new_game():
 	score = 0
 	
 	# start new game
+	$Player.show()
 	$Player.start($StartPosition.position)
 	$HUD.update_boost($Player.boost)
 	$Music.play()
@@ -80,7 +90,6 @@ func _on_score_timer_timeout() -> void:
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
-	$BoostTimer.start()
 
 func _on_player_boost_changed() -> void:
 	$HUD.update_boost($Player.boost)

@@ -51,5 +51,4 @@ shape = SubResource("CircleShape2D_7vs3u")
 [node name="BoostTimer" type="Timer" parent="."]
 wait_time = 0.1
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="BoostTimer" to="." method="_on_boost_timer_timeout"]

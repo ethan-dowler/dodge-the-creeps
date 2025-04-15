@@ -19,6 +19,7 @@ var screen_size
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	body_entered.connect(_on_body_entered)
 	screen_size = get_viewport_rect().size
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -70,7 +71,6 @@ func _process(delta: float) -> void:
 func start(pos):
 	self.boost = MAX_BOOST
 	position = pos
-	show()
 	$CollisionShape2D.disabled = false
 	$BoostTimer.start()
 
@@ -87,7 +87,6 @@ func set_boost(val):
 	boost_changed.emit()
 
 func _on_body_entered(_body: Node2D) -> void:
-	hide() # Player disappears after being hit.
 	hit.emit()
 	# Must be deferred as we can't change physics properties on a physics callback.
 	$CollisionShape2D.set_deferred("disabled", true)
