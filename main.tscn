@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=4 uid="uid://bsdk7ejakl1o3"]
+[gd_scene load_steps=11 format=4 uid="uid://bsdk7ejakl1o3"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_csq57"]
 [ext_resource type="PackedScene" uid="uid://ul6aby5dqawf" path="res://player.tscn" id="1_u44pq"]
 [ext_resource type="PackedScene" uid="uid://fqr8iqq0cvf1" path="res://mob.tscn" id="2_eda7l"]
+[ext_resource type="PackedScene" uid="uid://qb3m8df8fi8q" path="res://point_orb.tscn" id="3_5j5m2"]
 [ext_resource type="PackedScene" uid="uid://j8od7f5rirh0" path="res://hud.tscn" id="4_0fqc0"]
 [ext_resource type="AudioStream" uid="uid://cc273krdsfa0h" path="res://art/gameover.wav" id="6_ii6rd"]
 
@@ -21,9 +22,16 @@ sampling_rate = 44100.0
 packet_sequence = SubResource("OggPacketSequence_njlal")
 loop = true
 
+[sub_resource type="Curve2D" id="Curve2D_6lf3a"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 88, 112, 0, 0, 0, 0, 528, 112, 0, 0, 0, 0, 80, 368, 0, 0, 0, 0, 512, 576, 0, 0, 0, 0, 72, 792, 0, 0, 0, 0, 520, 792, 0, 0, 0, 0, 88, 120, 0, 0, 0, 0, 520, 312, 0, 0, 0, 0, 72, 640, 0, 0, 0, 0, 360, 792, 0, 0, 0, 0, 312, 120, 0, 0, 0, 0, 528, 448, 0, 0, 0, 0, 72, 488)
+}
+point_count = 13
+
 [node name="Main" type="Node"]
 script = ExtResource("1_csq57")
 mob_scene = ExtResource("2_eda7l")
+point_orb_scene = ExtResource("3_5j5m2")
 
 [node name="BackgroundColor" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -45,6 +53,11 @@ wait_time = 0.5
 wait_time = 2.0
 one_shot = true
 
+[node name="PointOrbTimer" type="Timer" parent="."]
+
+[node name="DifficultyTimer" type="Timer" parent="."]
+wait_time = 15.0
+
 [node name="StartPosition" type="Marker2D" parent="."]
 position = Vector2(175, 250)
 
@@ -61,3 +74,9 @@ stream = SubResource("AudioStreamOggVorbis_q3x6a")
 
 [node name="GameOver" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_ii6rd")
+
+[node name="PointOrbPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_6lf3a")
+
+[node name="PointOrbSpawnLocation" type="PathFollow2D" parent="PointOrbPath"]
+position = Vector2(88, 112)

@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 		velocity.y += 1
 	if Input.is_action_pressed("move_left"):
 		velocity.x -= 1
-	if Input.is_action_pressed("boost") && self.boost > 0:
+	if Input.is_action_pressed("boost") && boost > 0:
 		add_boost(-1)
 		speed *= BOOST_RATIO
 
@@ -69,21 +69,21 @@ func _process(delta: float) -> void:
 
 # Reset the player for a new game!
 func start(pos):
-	self.boost = MAX_BOOST
+	boost = MAX_BOOST
 	position = pos
 	$CollisionShape2D.disabled = false
 	$BoostTimer.start()
 
 func add_boost(val):
-	self.boost += val
+	boost += val
 	if boost > MAX_BOOST:
-		self.boost = MAX_BOOST
+		boost = MAX_BOOST
 	boost_changed.emit()
 
 func set_boost(val):
-	self.boost = val
+	boost = val
 	if boost > MAX_BOOST:
-		self.boost = MAX_BOOST
+		boost = MAX_BOOST
 	boost_changed.emit()
 
 func _on_body_entered(_body: Node2D) -> void:
@@ -93,5 +93,5 @@ func _on_body_entered(_body: Node2D) -> void:
 	$BoostTimer.stop()
 
 func _on_boost_timer_timeout() -> void:
-	if self.boost < MAX_BOOST && !Input.is_action_pressed("boost"):
+	if boost < MAX_BOOST && !Input.is_action_pressed("boost"):
 		add_boost(1)

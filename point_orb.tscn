@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://qb3m8df8fi8q"]
+
+[ext_resource type="Script" path="res://point_orb.gd" id="1_mnqwa"]
+[ext_resource type="Texture2D" uid="uid://bava48k7mt13p" path="res://art/playerGrey_walk1.png" id="2_1chnd"]
+[ext_resource type="Texture2D" uid="uid://csvuhodvgd6a5" path="res://art/playerGrey_up1.png" id="3_jyhgx"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u1wm6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jjjnl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_1chnd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_jyhgx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n35ak"]
+radius = 21.0
+
+[node name="PointOrb" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 2
+physics_material_override = SubResource("PhysicsMaterial_u1wm6")
+gravity_scale = 0.0
+constant_torque = 10.0
+script = ExtResource("1_mnqwa")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_jjjnl")
+animation = &"idle"
+frame_progress = 0.0680494
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_n35ak")
